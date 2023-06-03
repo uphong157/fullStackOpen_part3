@@ -7,16 +7,28 @@ const url = process.env.MONGODB_URI
 console.log('connecting to', url)
 
 mongoose.connect(url)
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
-  .catch(err => {
+  .catch((err) => {
     console.log('error connecting to MongoDB:', err.message)
   })
 
 const personSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minLength: 3,
+  },
+  number: {
+    type: String,
+    validate: {
+      validator: (v) => {
+        if (v.length < 8) return false
+
+        return /\d{2,3}-\d+/.test(v)
+      },
+    },
+  },
 })
 
 personSchema.set('toJSON', {
@@ -24,7 +36,7 @@ personSchema.set('toJSON', {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
-  }
+  },
 })
 
 module.exports = mongoose.model('Person', personSchema)

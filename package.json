@@ -10,7 +10,8 @@
     "build:ui": "rm -rf build && cd ../fullStackOpen_uphong157/part2/phonebook/ && npm run build && cp -r build ../../../fullStackOpen_part3",
     "deploy": "fly deploy",
     "deploy:full": "npm run build:ui && npm run deploy",
-    "logs:prod": "fly logs"
+    "logs:prod": "fly logs",
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,8 @@
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.2.7",
+    "eslint": "^8.41.0",
+    "eslint-config-airbnb": "^19.0.4",
     "nodemon": "^2.0.22"
   }
 }
